@@ -11,12 +11,28 @@ Promises são um objeto que representa a eventual conclusão
 (ou falha) de uma operação assíncrona e seu valor resultante.
 */
 
-function fazRequisicaoHTTP() {
+function fazRequisicaoHTTP(resolver = true) {
 	return new Promise(function (resolve, reject) {
 		setTimeout(() => {
+			if (!resolver) {
+				reject("Deu erro");
+				// throw new Error("Bazinga!");
+			}
+
 			resolve("Promise resolvida");
 		}, 3000);
 	});
 }
 
-fazRequisicaoHTTP().then(console.log);
+// fazRequisicaoHTTP(false).then(console.log).catch(console.error);
+
+fazRequisicaoHTTP(false)
+	.then((resposta) => {
+		console.log(resposta);
+	})
+	.catch((error) => {
+		console.error(error);
+	})
+	.finally(() => {
+		console.log("Operação concluída");
+	});
